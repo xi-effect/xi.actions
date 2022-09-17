@@ -1,0 +1,32 @@
+name: Common Docker Deploy Workflow
+
+on:
+  workflow_call:
+    inputs:
+      images:
+        type: string
+        required: true
+    secrets:
+      SERVER_IP:
+        required: true
+      SSH_PRIVATE_KEY:
+        required: true
+
+jobs:
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run SSH command
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd ~/xieffect-core
+            docker-compose pull ${{ inputs.images }}
+            docker-compose up -d
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+        env:
+          CI: true
