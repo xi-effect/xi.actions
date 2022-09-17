@@ -24,10 +24,8 @@ jobs:
     uses: ./docker-build.yml
     with:
       tag: ${{ inputs.tag }}
-    secrets: inherit
 
   deploy:
     uses: ./docker-deploy.yml
     with:
       images: ${{ inputs.images }}
-    secrets: inherit

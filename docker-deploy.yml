@@ -6,11 +6,11 @@ on:
       images:
         type: string
         required: true
-    secrets:
-      SERVER_IP:
-        required: true
-      SSH_PRIVATE_KEY:
-        required: true
+    # secrets:
+    #   SERVER_IP:
+    #     required: true
+    #   SSH_PRIVATE_KEY:
+    #     required: true
 
 jobs:
   deploy:
