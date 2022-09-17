@@ -27,6 +27,7 @@ jobs:
     secrets: inherit
 
   deploy:
+    needs: build
     uses: ./.github/workflows/docker-deploy.yml
     with:
       images: ${{ inputs.images }}
