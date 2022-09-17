@@ -1,0 +1,33 @@
+name: Common Docker Build & Deploy Workflow
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+      images:
+        type: string
+        required: true
+    # secrets:
+    #   DOCKER_HUB_USERNAME:
+    #     required: true
+    #   DOCKER_HUB_ACCESS_TOKEN:
+    #     required: true
+    #   SERVER_IP:
+    #     required: true
+    #   SSH_PRIVATE_KEY:
+    #     required: true
+
+jobs:
+  build:
+    uses: ./docker-build.yml
+    with:
+      tag: ${{ inputs.tag }}
+    secrets: inherit
+
+  deploy:
+    uses: ./docker-deploy.yml
+    with:
+      images: ${{ inputs.images }}
+    secrets: inherit
