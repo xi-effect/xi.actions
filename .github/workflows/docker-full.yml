@@ -9,6 +9,12 @@ on:
       images:
         type: string
         required: true
+      context:
+        type: string
+        required: false
+      dockerfile:
+        type: string
+        required: false
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -24,6 +30,8 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       tag: ${{ inputs.tag }}
+      context: ${{ inputs.context }}
+      dockerfile: ${{ inputs.dockerfile }}
     secrets: inherit
 
   deploy:

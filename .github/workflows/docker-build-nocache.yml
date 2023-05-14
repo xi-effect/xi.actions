@@ -6,6 +6,12 @@ on:
       tag:
         type: string
         required: true
+      context:
+        type: string
+        required: false
+      dockerfile:
+        type: string
+        required: false
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -29,3 +35,5 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           repository: ${{ secrets.DOCKER_HUB_USERNAME }}
           tag: ${{ inputs.tag }}
+          context: ${{ inputs.context }}
+          dockerfile: ${{ inputs.dockerfile }}
