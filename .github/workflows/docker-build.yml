@@ -12,6 +12,9 @@ on:
       dockerfile:
         type: string
         required: false
+      target:
+        type: string
+        required: false
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -37,3 +40,4 @@ jobs:
           tag: ${{ inputs.tag }}
           context: ${{ inputs.context }}
           dockerfile: ${{ inputs.dockerfile }}
+          target: ${{ inputs.target }}
