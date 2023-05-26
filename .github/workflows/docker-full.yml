@@ -18,6 +18,9 @@ on:
       target:
         type: string
         required: false
+      arguments:
+        type: string
+        required: false
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -36,6 +39,7 @@ jobs:
       context: ${{ inputs.context }}
       dockerfile: ${{ inputs.dockerfile }}
       target: ${{ inputs.target }}
+      arguments: ${{ inputs.arguments }}
     secrets: inherit
 
   deploy:
