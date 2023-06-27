@@ -1,6 +1,9 @@
 name:
   Node setup, install, lint and format
 
+description: >
+  Node setup, install, lint and format
+
 inputs:
   node-version:
     required: false
@@ -35,10 +38,13 @@ runs:
     - name: Install dependencies
       id: install
       run: ${{ inputs.install-command }}
+      shell: bash
 
     - name: Check format
       run: ${{ inputs.format-command }}
+      shell: bash
 
     - name: Lint
       if: success() || (failure() && steps.install.conclusion == 'success')
       run: ${{ inputs.lint-command }}
+      shell: bash
