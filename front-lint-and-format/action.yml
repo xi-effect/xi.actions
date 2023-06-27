@@ -1,0 +1,44 @@
+name:
+  Node setup, install, lint and format
+
+inputs:
+  node-version:
+    required: false
+    description: >
+      Node version to use, will be passed to actions/setup-node.
+      For more info see: https://github.com/actions/setup-node#supported-version-syntax
+    default: "16"
+  install-command:
+    required: false
+    description: Command to install all dependencies required for formatting and linting
+    default: "npm install"
+  format-command:
+    required: false
+    description: Command to check the formatting
+    default: "npm run format-check"
+  lint-command:
+    required: false
+    description: Command to run linter(s)
+    default: "npm run lint"
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Install dependencies
+      id: install
+      run: ${{ inputs.install-command }}
+
+    - name: Check format
+      run: ${{ inputs.format-command }}
+
+    - name: Lint
+      if: success() || (failure() && steps.install.conclusion == 'success')
+      run: ${{ inputs.lint-command }}
