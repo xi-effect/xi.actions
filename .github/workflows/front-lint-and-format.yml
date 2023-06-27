@@ -1,0 +1,29 @@
+name: Lint and format a frontend pro
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        type: string
+        required: false
+      install-command:
+        type: string
+        required: false
+      format-command:
+        type: string
+        required: false
+      lint-command:
+        type: string
+        required: false
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint and format
+        uses: xi-effect/xi.actions/front-lint-and-format@main
+        with:
+          node-version: ${{ inputs.node-version }}
+          install-command: ${{ inputs.install-command }}
+          format-command: ${{ inputs.format-command }}
+          lint-command: ${{ inputs.lint-command }}
