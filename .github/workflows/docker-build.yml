@@ -6,6 +6,9 @@ on:
       tag:
         type: string
         required: true
+      base-tag:
+        type: string
+        required: false
       context:
         type: string
         required: false
@@ -41,6 +44,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           repository: ${{ secrets.DOCKER_HUB_USERNAME }}
           tag: ${{ inputs.tag }}
+          base-tag: ${{ inputs.base-tag }}
           context: ${{ inputs.context }}
           dockerfile: ${{ inputs.dockerfile }}
           target: ${{ inputs.target }}
