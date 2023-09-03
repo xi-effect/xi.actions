@@ -7,7 +7,7 @@ on:
         type: string
         required: true
     secrets:
-      SERVER_IP:
+      HOST:
         required: true
       SSH_PRIVATE_KEY:
         required: true
@@ -17,15 +17,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run SSH command
-        uses: garygrossgarten/github-action-ssh@release
+      - name: Run SSH commands
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          command: |
-            cd ~/xieffect-core
-            docker-compose pull ${{ inputs.images }}
-            docker-compose up -d
-          host: ${{ secrets.SERVER_IP }}
           username: root
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SERVER_IP }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |-
+            cd ~/xieffect-core
+            docker compose pull ${{ inputs.images }}
+            docker compose up -d
+            docker image prune -f
+          script_stop: true
         env:
           CI: true
