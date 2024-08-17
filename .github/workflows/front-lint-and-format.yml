@@ -6,15 +6,19 @@ on:
       node-version:
         type: string
         required: false
+        default: "16"
       install-command:
         type: string
         required: false
+        default: "npm install"
       format-command:
         type: string
         required: false
+        default: "npm run format-check"
       lint-command:
         type: string
         required: false
+        default: "npm run lint"
 
 jobs:
   lint-and-format:

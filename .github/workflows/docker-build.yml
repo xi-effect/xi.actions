@@ -11,9 +11,11 @@ on:
         required: false
       context:
         type: string
+        default: ./
         required: false
       dockerfile:
         type: string
+        default: ./Dockerfile
         required: false
       target:
         type: string
