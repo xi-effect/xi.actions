@@ -10,7 +10,7 @@ inputs:
     description: >
       Node version to use, will be passed to actions/setup-node.
       For more info see: https://github.com/actions/setup-node#supported-version-syntax
-    default: "16"
+    default: "20"
   install-command:
     required: false
     description: Command to install all dependencies required for formatting and linting
