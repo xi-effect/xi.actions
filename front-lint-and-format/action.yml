@@ -23,6 +23,10 @@ inputs:
     required: false
     description: Command to run linter(s)
     default: "npm run lint"
+  npm-clean-install:
+    required: false
+    description: Whether to clean install npm packages to avoid issues with optional dependencies
+    default: "true"
 
 runs:
   using: composite
@@ -35,8 +39,26 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
 
-    - name: Install dependencies
-      id: install
+    - name: Update npm
+      run: npm install -g npm@latest
+      shell: bash
+
+    - name: Clean install (if npm-clean-install is true)
+      if: inputs.npm-clean-install == 'true'
+      id: clean-install
+      run: |
+        if [ -f "package-lock.json" ]; then
+          rm package-lock.json
+        fi
+        if [ -d "node_modules" ]; then
+          rm -rf node_modules
+        fi
+        npm install --no-optional
+      shell: bash
+
+    - name: Install dependencies (if npm-clean-install is false)
+      if: inputs.npm-clean-install != 'true'
+      id: regular-install
       run: ${{ inputs.install-command }}
       shell: bash
 
@@ -45,6 +67,6 @@ runs:
       shell: bash
 
     - name: Lint
-      if: success() || (failure() && steps.install.conclusion == 'success')
+      if: success() || (failure() && (steps.clean-install.conclusion == 'success' || steps.regular-install.conclusion == 'success'))
       run: ${{ inputs.lint-command }}
       shell: bash
